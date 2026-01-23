@@ -3,14 +3,8 @@
 ;; Clarity 4 Smart Contract
 ;; ============================================
 
-(use-trait trait-engine-interface .trait-engine-trait.trait-engine)
-
 (define-constant ERR_NOT_FOUND (err u404))
-
-(define-map element-compatibility
-  { element-a: (string-ascii 10), element-b: (string-ascii 10) }
-  uint
-)
+(define-constant ERR_INVALID_BLOCK (err u400))
 
 (define-constant BITSIGNS (list
   "The Miner"
@@ -31,7 +25,7 @@
 
 (define-constant ENERGIES (list "Yang" "Yin" "Neutral"))
 
-(define-private (get-traits-for-block (bh uint) (engine <trait-engine-interface>))
+(define-private (get-traits-for-block (bh uint))
   (let
     (
       (block-info (unwrap! (get-burn-block-info? header-hash bh) ERR_NOT_FOUND))
@@ -51,26 +45,29 @@
   )
 )
 
-(define-public (check-compatibility (engine <trait-engine-interface>) (block-a uint) (block-b uint))
-  (let
-    (
-      (traits-a (unwrap! (get-traits-for-block block-a engine) ERR_NOT_FOUND))
-      (traits-b (unwrap! (get-traits-for-block block-b engine) ERR_NOT_FOUND))
-      (element-a (get element traits-a))
-      (element-b (get element traits-b))
-      (base-score (default-to u50
-        (map-get? element-compatibility { element-a: element-a, element-b: element-b })))
-      (energy-bonus (if (is-eq (get energy traits-a) (get energy traits-b)) u10 u0))
-      (power-synergy (if (is-eq (mod (get power-number traits-a) u3)
-                                (mod (get power-number traits-b) u3)) u5 u0))
+(define-public (check-compatibility (block-a uint) (block-b uint))
+  (begin
+    (asserts! (<= block-a burn-block-height) ERR_INVALID_BLOCK)
+    (asserts! (<= block-b burn-block-height) ERR_INVALID_BLOCK)
+    (let
+      (
+        (traits-a (unwrap! (get-traits-for-block block-a) ERR_NOT_FOUND))
+        (traits-b (unwrap! (get-traits-for-block block-b) ERR_NOT_FOUND))
+        (element-a (get element traits-a))
+        (element-b (get element traits-b))
+        (base-score (get-element-compatibility-score element-a element-b))
+        (energy-bonus (if (is-eq (get energy traits-a) (get energy traits-b)) u10 u0))
+        (power-synergy (if (is-eq (mod (get power-number traits-a) u3)
+                                  (mod (get power-number traits-b) u3)) u5 u0))
+      )
+      (ok {
+        score: (+ base-score energy-bonus power-synergy),
+        element-match: (is-eq element-a element-b),
+        energy-match: (is-eq (get energy traits-a) (get energy traits-b)),
+        special-bond: (is-eq (get bitsign traits-a) (get bitsign traits-b)),
+        relationship-type: (get-relationship-type (+ base-score energy-bonus power-synergy))
+      })
     )
-    (ok {
-      score: (+ base-score energy-bonus power-synergy),
-      element-match: (is-eq element-a element-b),
-      energy-match: (is-eq (get energy traits-a) (get energy traits-b)),
-      special-bond: (is-eq (get bitsign traits-a) (get bitsign traits-b)),
-      relationship-type: (get-relationship-type (+ base-score energy-bonus power-synergy))
-    })
   )
 )
 
@@ -89,7 +86,40 @@
 )
 
 (define-read-only (get-compatibility-score (element-a (string-ascii 10)) (element-b (string-ascii 10)))
-  (ok (default-to u50 (map-get? element-compatibility { element-a: element-a, element-b: element-b })))
+  (ok (get-element-compatibility-score element-a element-b))
+)
+
+(define-read-only (get-element-compatibility-score (element-a (string-ascii 10)) (element-b (string-ascii 10)))
+  (if (is-eq element-a "Fire")
+    (if (is-eq element-b "Fire") u75
+      (if (is-eq element-b "Air") u90
+        (if (is-eq element-b "Water") u30
+          (if (is-eq element-b "Earth") u50
+            u85)))) ;; Ether
+    (if (is-eq element-a "Water")
+      (if (is-eq element-b "Fire") u30
+        (if (is-eq element-b "Water") u75
+          (if (is-eq element-b "Earth") u85
+            (if (is-eq element-b "Air") u50
+              u70)))) ;; Ether
+      (if (is-eq element-a "Earth")
+        (if (is-eq element-b "Earth") u75
+          (if (is-eq element-b "Water") u85
+            (if (is-eq element-b "Fire") u50
+              (if (is-eq element-b "Air") u60
+                u80)))) ;; Ether
+        (if (is-eq element-a "Air")
+          (if (is-eq element-b "Air") u75
+            (if (is-eq element-b "Fire") u90
+              (if (is-eq element-b "Water") u50
+                (if (is-eq element-b "Earth") u60
+                  u85)))) ;; Ether
+          ;; Ether
+          (if (is-eq element-b "Ether") u100 u80) ;; Ether with anything else
+        )
+      )
+    )
+  )
 )
 
 (define-read-only (get-initial-compatibility)

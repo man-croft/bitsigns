@@ -4,10 +4,7 @@
 ;; Clarity 4 Smart Contract
 ;; ============================================
 
-(use-trait sip013-trait .sip013-trait.sip013-trait)
 (impl-trait .sip013-trait.sip013-trait)
-
-(define-constant CONTRACT_OWNER tx-sender)
 
 (define-constant ERR_NOT_FOUND (err u404))
 
@@ -35,11 +32,17 @@
 )
 
 (define-read-only (get-decimals (token-id uint))
-  (ok u0)
+  (begin
+    token-id ;; silence unused warning
+    (ok u0)
+  )
 )
 
 (define-read-only (get-token-uri (token-id uint) )
-  (ok none)
+  (begin
+    token-id ;; silence unused warning
+    (ok none)
+  )
 )
 
 (define-public (transfer (token-id uint) (amount uint) (sender principal) (recipient principal))

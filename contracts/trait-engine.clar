@@ -3,8 +3,6 @@
 ;; Clarity 4 Smart Contract
 ;; ============================================
 
-(define-constant CONTRACT_OWNER tx-sender)
-
 (define-constant ERR_NOT_FOUND (err u404))
 (define-constant ERR_INVALID_BLOCK (err u400))
 (define-constant ERR_ALREADY_REGISTERED (err u409))
@@ -29,15 +27,6 @@
 (define-constant ENERGIES (list "Yang" "Yin" "Neutral"))
 
 (define-map user-birth-blocks principal uint)
-
-(define-map cached-traits principal {
-  bitsign: (string-ascii 20),
-  element: (string-ascii 10),
-  energy: (string-ascii 10),
-  power-number: uint,
-  lucky-sat: uint,
-  trait-hash: (buff 32)
-})
 
 (define-read-only (get-bitsign-for-block (bh uint))
   (let

@@ -50,5 +50,5 @@
 )
 
 (define-read-only (get-contract-balance)
-  (ok (stx-get-balance (as-contract tx-sender)))
+  (ok (stx-get-balance .treasury))
 )

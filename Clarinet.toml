@@ -33,7 +33,7 @@ epoch = 'latest'
 
 [contracts.trait-token]
 path = 'contracts/trait-token.clar'
-clarity_version = 2
+clarity_version = 4
 epoch = 'latest'
 
 [contracts.compatibility]
@@ -49,7 +49,7 @@ epoch = 'latest'
 [contracts.treasury]
 path = 'contracts/treasury.clar'
 clarity_version = 2
-epoch = 'latest'
+epoch = '2.5'
 
 [repl.analysis]
 passes = [

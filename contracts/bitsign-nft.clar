@@ -4,7 +4,6 @@
 ;; Clarity 4 Smart Contract
 ;; ============================================
 
-(use-trait nft-trait .nft-trait.nft-trait)
 (impl-trait .nft-trait.nft-trait)
 
 (define-constant CONTRACT_OWNER tx-sender)
@@ -30,9 +29,7 @@
 )
 
 (define-read-only (get-token-uri (token-id uint))
-  (let ((image-uri (default-to "" (map-get? token-image-uris token-id))))
-    (ok (some (concat (var-get base-uri) (concat (int-to-ascii token-id) ".json"))))
-  )
+  (ok (some (concat (var-get base-uri) (concat (int-to-ascii token-id) ".json"))))
 )
 
 (define-read-only (get-owner (token-id uint))
