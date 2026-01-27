@@ -1,22 +1,72 @@
 [project]
-name = "bitsigns"
-description = "AI-Generated Bitcoin Astrology NFTs - Your Bitcoin birthday reveals your destiny"
-authors = ["man-croft"]
+name = 'bitsigns'
+description = 'AI-Generated Bitcoin Astrology NFTs - Your Bitcoin birthday reveals your destiny'
+authors = ['man-croft']
 telemetry = true
-cache_dir = "./.cache"
+cache_dir = './.cache'
+requirements = []
 
-# [contracts.counter]
-# path = "contracts/counter.clar"
-# epoch = "latest"
+[contracts.nft-trait]
+path = 'contracts/nft-trait.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.sip013-trait]
+path = 'contracts/sip013-trait.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.trait-engine-trait]
+path = 'contracts/trait-engine-trait.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.trait-engine]
+path = 'contracts/trait-engine.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.bitsign-nft]
+path = 'contracts/bitsign-nft.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.trait-token]
+path = 'contracts/trait-token.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.compatibility]
+path = 'contracts/compatibility.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.fortune-oracle]
+path = 'contracts/fortune-oracle.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.treasury]
+path = 'contracts/treasury.clar'
+clarity_version = 2
+epoch = '2.5'
 
 [repl.analysis]
-passes = ["check_checker"]
-check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
+passes = [
+    'check_checker',
+    'call_checker',
+]
 
-# Check-checker settings:
-# trusted_sender: if true, inputs are trusted after tx_sender has been checked.
-# trusted_caller: if true, inputs are trusted after contract-caller has been checked.
-# callee_filter: if true, untrusted data may be passed into a private function without a
-# warning, if it gets checked inside. This check will also propagate up to the
-# caller.
-# More informations: https://www.hiro.so/blog/new-safety-checks-in-clarinet
+[repl.analysis.lint_groups]
+
+[repl.analysis.lints]
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
+
+[repl.remote_data]
+enabled = false
+api_url = 'https://api.hiro.so'
