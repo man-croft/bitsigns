@@ -1,65 +1,101 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sprout, Droplets, Sun, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="flex min-h-screen flex-col">
+      <Nav />
+      
+      <main className="flex-1 relative overflow-hidden">
+        {/* Solar Decoration */}
+        <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-primary/10 blur-3xl -z-10" />
+        <div className="absolute -left-20 bottom-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl -z-10" />
+
+        {/* Hero */}
+        <section className="py-24 md:py-32 text-center">
+          <div className="container px-4 mx-auto">
+            <h1 className="mb-6 text-6xl md:text-8xl font-heading font-bold text-[#2aa198] leading-[1.1] md:leading-[1.1]">
+              Regen<br />
+              <span className="text-accent inline-block mt-2">Your Roots</span>
+            </h1>
+            <p className="mx-auto max-w-xl text-2xl text-muted-foreground font-body">
+              Technology that breathes. Mint your unique BitSign avatar based on the Bitcoin block of your birth.
+            </p>
+            
+            <div className="mt-10 flex justify-center gap-4">
+              <Link href="/mint">
+                <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                  Plant Your Seed <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="py-20">
+          <div className="container px-4 mx-auto">
+            <div className="grid gap-8 md:grid-cols-3">
+              {/* Card 1 */}
+              <Link href="/mint" className="group">
+                <Card className="h-full bg-white transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#93a1a1]">
+                  <CardHeader>
+                    <div className="mb-4 h-16 w-16 rounded-full bg-[#2aa198]/10 flex items-center justify-center text-[#2aa198]">
+                      <Sprout className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="text-3xl text-[#2aa198]">Grow</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-lg text-muted-foreground font-body">
+                      Mint your seedling based on block height. A 1-of-1 generative avatar.
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              {/* Card 2 */}
+              <Link href="/fortune" className="group">
+                <Card className="h-full bg-white transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#93a1a1]">
+                  <CardHeader>
+                    <div className="mb-4 h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                      <Droplets className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="text-3xl text-accent">Nurture</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-lg text-muted-foreground font-body">
+                      Receive daily water (oracle readings) for your soul based on chain activity.
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              {/* Card 3 */}
+              <Link href="/compatibility" className="group">
+                <Card className="h-full bg-white transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#93a1a1]">
+                  <CardHeader>
+                    <div className="mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <Sun className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="text-3xl text-primary">Bloom</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-lg text-muted-foreground font-body">
+                      Connect your roots with others. Check compatibility between wallets.
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
+
+      <Footer />
     </div>
   );
 }
