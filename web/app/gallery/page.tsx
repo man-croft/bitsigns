@@ -1,13 +1,10 @@
-import Link from "next/link";
+import { GalleryGrid } from "@/components/gallery-grid";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
 
 export default function GalleryPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-[#fdf6e3]">
       <Nav />
       
       <main className="flex-1 py-12 md:py-24">
@@ -21,11 +18,7 @@ export default function GalleryPage() {
             </p>
           </div>
 
-          {/* Placeholder for Grid */}
-          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-            <Loader2 className="h-8 w-8 animate-spin mb-4" />
-            <p>Loading recent mints...</p>
-          </div>
+          <GalleryGrid />
         </div>
       </main>
 
