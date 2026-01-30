@@ -191,12 +191,25 @@ export function ProfileView() {
                 </h2>
                 <p className="text-muted-foreground font-body text-lg">{address.slice(0, 6)}...{address.slice(-4)}</p>
             </div>
-            <Link href="/fortune">
-                <Button variant="outline" className="rounded-full border-2 border-primary/20 hover:border-primary text-primary hover:bg-primary hover:text-white transition-all">
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Daily Fortune
-                </Button>
-            </Link>
+import { ShareButton } from "./share-button";
+
+// ... inside ProfileView, after the tokenId rendering ...
+
+            <div className="flex gap-2">
+                <Link href="/fortune">
+                    <Button variant="outline" className="rounded-full border-2 border-primary/20 hover:border-primary text-primary hover:bg-primary hover:text-white transition-all">
+                        <Sparkles className="mr-2 h-4 w-4" />
+                        Daily Fortune
+                    </Button>
+                </Link>
+                {tokenId && traits && (
+                    <ShareButton 
+                        tokenId={tokenId} 
+                        sign={traits.bitsign} 
+                        element={traits.element} 
+                    />
+                )}
+            </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
