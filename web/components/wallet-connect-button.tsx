@@ -3,11 +3,27 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/hooks/useWallet";
-import { Loader2, Wallet } from "lucide-react";
+import { Loader2, Wallet, Copy, LogOut } from "lucide-react";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function WalletConnectButton() {
   const { isConnected, isLoading: isSessionLoading, connect, disconnect, address } = useWallet();
   const [isConnecting, setIsConnecting] = React.useState(false);
+
+  const handleCopy = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+      toast.success("Address copied to clipboard");
+    }
+  };
 
   const handleConnect = async () => {
     setIsConnecting(true);
@@ -32,9 +48,25 @@ export function WalletConnectButton() {
 
   if (isConnected && address) {
     return (
-      <Button variant="outline" onClick={disconnect}>
-        {address.slice(0, 6)}...{address.slice(-4)}
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="font-mono">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Wallet Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleCopy} className="cursor-pointer">
+            <Copy className="mr-2 h-4 w-4" />
+            Copy Address
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={disconnect} className="cursor-pointer text-destructive focus:text-destructive">
+            <LogOut className="mr-2 h-4 w-4" />
+            Disconnect
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
 
