@@ -11,6 +11,8 @@ import { parseContractId } from "@/lib/utils";
 import { uintCV } from "@stacks/transactions";
 import { Loader2, Pickaxe } from "lucide-react";
 import { toast } from "sonner";
+// @ts-ignore
+import confetti from "canvas-confetti";
 
 export function MintForm() {
   const { isConnected, connect, address } = useWallet();
