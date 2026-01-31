@@ -61,6 +61,11 @@ export function MintForm() {
       });
 
       if (response && response.txid) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
           toast.success("Mint transaction broadcasted!", {
             description: "Your BitSign is being forged on the blockchain. Check the explorer.",
             action: {
