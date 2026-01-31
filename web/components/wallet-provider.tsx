@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { toast } from "sonner";
 
 interface WalletContextValue {
   userData: any | null;
@@ -69,6 +70,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       setUserData(null);
       setIsConnectedState(false);
       setAddress(null);
+      toast.info("Wallet disconnected");
     } catch (e) {
       console.error(e);
     }
