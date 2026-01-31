@@ -19,13 +19,13 @@ export function GalleryItem({ tokenId, imageUri, name, owner }: GalleryItemProps
     : `https://avatar.vercel.sh/${tokenId}?text=BS`;
 
   return (
-    <Card className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 group bg-white">
+    <Card className="overflow-hidden border-none shadow-md hover:shadow-2xl hover:-translate-y-1 hover:ring-2 hover:ring-primary/20 transition-all duration-300 group bg-white cursor-pointer">
       <div className="relative aspect-square w-full bg-secondary/20">
         <Image
           src={displayImage}
           alt={name || `BitSign #${tokenId}`}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
           <Link href={`/profile/${tokenId}`} className="text-white text-sm font-bold hover:underline">
